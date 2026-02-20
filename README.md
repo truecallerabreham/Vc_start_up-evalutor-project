@@ -1,20 +1,81 @@
 # VentureLens AI
 
-VentureLens AI is an open-weight startup due diligence platform for AI investments.
-It automates startup research, hybrid retrieval, multi-agent reasoning, and structured VC-style memos through a cloud-accessible FastAPI service.
+VentureLens AI is a startup due diligence platform focused on AI companies. It collects public information, retrieves the most relevant evidence, runs structured analysis agents, and returns an investor-style report through a web UI and API.
 
-## Resume-Ready Summary
+## Project Explanation
 
-Built an AI startup due diligence platform using hybrid retrieval (vector + keyword), multi-agent memo generation, evaluation scoring, and cloud deployment with Docker/Render.
+### What problem this project solves
 
-## Current Phase Status
+Investors and analysts spend significant time manually collecting data from startup websites, news, and public documents before producing a diligence memo. VentureLens AI reduces this manual workload by automating:
 
-- Phase 0: setup complete
-- Phase 1: real data ingestion complete
-- Phase 2: hybrid retrieval + multi-agent analysis complete
-- Phase 3: evaluation + runtime metrics complete
-- Phase 4: Docker + Render deployment complete
-- Phase 5: portfolio polish complete
+- data collection from public sources
+- retrieval of the most relevant evidence
+- structured assessment across key investment dimensions
+- quality checks and runtime metrics
+
+The output is a readable, sectioned report that can be reviewed quickly and compared across companies.
+
+### End-to-end workflow
+
+1. Input: user provides startup name and website URL.
+2. Ingestion: system fetches data from website pages, Google News RSS, and optional public PDFs.
+3. Normalization and chunking: raw text is cleaned and split into chunk-sized documents with metadata.
+4. Embeddings and indexing: chunk vectors are generated and indexed in Qdrant (or in-memory fallback).
+5. Hybrid retrieval: vector similarity and BM25 keyword relevance are combined into a final ranking.
+6. Multi-agent analysis: dedicated agents evaluate market, competition, traction, and risk.
+7. Synthesis: agent outputs are merged into a structured VC-style memo.
+8. Evaluation: report quality signals are calculated (relevance, citation coverage, consistency, hallucination risk).
+9. Delivery: final report appears in UI and API response with runtime metrics.
+
+### Core components
+
+- `app/ingestion/*`: web/news/PDF data ingestion
+- `app/retrieval/chunker.py`: document chunking with overlap
+- `app/embeddings/embedder.py`: embedding generation (BGE when available, TF-IDF fallback)
+- `app/retrieval/qdrant_client.py`: vector store abstraction (Qdrant or local in-memory)
+- `app/retrieval/search.py`: hybrid retrieval scoring (vector + BM25)
+- `app/agents/*`: market, competition, traction, risk, and synthesis agents
+- `app/evaluation/evaluator.py`: quality scoring and verdict generation
+- `app/services/pipeline.py`: orchestration of complete analysis flow
+- `app/api/main.py`: API endpoints and web UI
+
+### Report structure
+
+Each analysis returns:
+
+- Market section with score, summary, and evidence
+- Competition section with score, summary, and evidence
+- Traction section with score, summary, and evidence
+- Business model section with score, summary, and evidence
+- Risk assessment section with score, summary, and evidence
+- Key risk list
+- Recommendation
+- Evaluation metrics and runtime metrics
+
+### Evaluation and observability
+
+VentureLens includes a lightweight evaluation layer to help detect weak outputs:
+
+- retrieval relevance score
+- citation coverage score
+- consistency score
+- hallucination risk estimate
+- judge verdict (`strong`, `acceptable`, `needs_review`)
+
+It also logs runtime metrics for operational visibility:
+
+- latency (ms)
+- estimated token count
+- estimated cost (USD)
+
+### Reliability decisions
+
+To keep the system usable across local and cloud environments:
+
+- embeddings have a fallback path when heavyweight models are unavailable
+- vector storage has a fallback when cloud Qdrant is not configured
+- SSL verification is configurable for local troubleshooting versus production safety
+- API and UI share one backend, reducing integration drift
 
 ## Architecture
 
@@ -30,38 +91,11 @@ flowchart TD
     E --> F[Vector Store: Qdrant or Local]
     F --> G[Hybrid Retrieval: Vector + BM25]
     G --> H[Analysis Agents]
-    H --> H1[Market Agent]
-    H --> H2[Competition Agent]
-    H --> H3[Traction Agent]
-    H --> H4[Risk Agent]
     H --> I[Synthesis Agent]
     I --> J[VC-style Memo]
     J --> K[Evaluation Layer]
-    K --> L[Judge Verdict + Hallucination Risk + Metrics]
-    L --> M[UI Report + API Response]
+    K --> L[UI + API Response]
 ```
-
-## Features
-
-- Real ingestion from public startup websites, Google News RSS, and public PDFs
-- Hybrid retrieval with normalized vector + BM25 scoring
-- Multi-agent investment memo sections:
-  - Market
-  - Competition
-  - Traction
-  - Business model
-  - Risk assessment
-- Evaluation outputs:
-  - Retrieval relevance
-  - Citation coverage
-  - Consistency score
-  - Hallucination risk
-  - Judge verdict
-- Runtime metrics:
-  - Latency
-  - Estimated token usage
-  - Estimated cost
-- Browser UI and JSON API
 
 ## API Endpoints
 
@@ -101,25 +135,9 @@ docker run --rm -p 8000:8000 --env PORT=8000 venturelens-ai
    - `QDRANT_API_KEY`
 5. Deploy and verify `/status` and `/ui`
 
-## Design Trade-offs
+## Additional docs
 
-- Embeddings fallback: BGE is preferred, TF-IDF fallback ensures reliability in constrained environments.
-- Vector backend: Qdrant preferred in cloud, in-memory fallback keeps local dev friction low.
-- Evaluation method: heuristic LLM-as-judge style metrics are fast/cheap but less rigorous than human annotation.
-- SSL mode: local default prioritizes practical debugging; production should enforce SSL verification.
-
-## Sample Outputs
-
+- `docs/DEMO_CHECKLIST.md`
+- `docs/TRADEOFFS.md`
 - `samples/sample_report_example.json`
 - `samples/sample_report_langchain.json`
-
-## Demo Checklist
-
-See `docs/DEMO_CHECKLIST.md`.
-
-## Interview Talking Points
-
-- Why hybrid retrieval outperforms pure vector search for due diligence
-- Why structured JSON + UI sections improve reliability and reviewability
-- How evaluation metrics help reduce hallucination risk
-- How local fallbacks reduced deployment risk while preserving cloud upgrade paths
