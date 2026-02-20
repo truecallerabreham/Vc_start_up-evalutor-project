@@ -1,0 +1,62 @@
+{
+  "status": "ok",
+  "report": {
+    "startup_name": "LangChain",
+    "generated_on": "2026-02-20",
+    "market": {
+      "summary": "LangChain shows market activity signals from public sources.",
+      "score": 7.21,
+      "evidence": [
+        {
+          "source": "https://www.langchain.com",
+          "score": 0.88,
+          "excerpt": "LangChain builds applications powered by language models...",
+          "metadata": {
+            "category": "overview"
+          }
+        }
+      ]
+    },
+    "competition": {
+      "summary": "LangChain has identifiable competitive pressure in adjacent AI categories.",
+      "score": 6.74,
+      "evidence": []
+    },
+    "traction": {
+      "summary": "LangChain has early traction indicators from news/site mentions.",
+      "score": 7.02,
+      "evidence": []
+    },
+    "business_model": {
+      "summary": "Revenue model appears plausible but requires pricing, retention, and unit economics validation.",
+      "score": 6.95,
+      "evidence": []
+    },
+    "risk_assessment": {
+      "summary": "LangChain requires diligence on compliance, model reliability, and dependency risks.",
+      "score": 6.13,
+      "evidence": []
+    },
+    "key_risks": [
+      "Limited verified financial disclosure from public sources.",
+      "Execution risk against fast-moving AI competitors.",
+      "Potential compliance and model reliability risk in regulated contexts."
+    ],
+    "recommendation": "Proceed to IC deep-dive"
+  },
+  "evaluation": {
+    "retrieval_relevance": 6.81,
+    "citation_coverage": 0.2,
+    "consistency_score": 9.02,
+    "hallucination_risk": 0.8,
+    "judge_verdict": "acceptable"
+  },
+  "metrics": {
+    "latency_ms": 2450,
+    "input_characters": 8420,
+    "estimated_input_tokens": 2105,
+    "estimated_cost_usd": 0.000316
+  },
+  "sources_indexed": 14,
+  "notes": "Phase 3 pipeline executed: evaluation + metrics logging enabled."
+}

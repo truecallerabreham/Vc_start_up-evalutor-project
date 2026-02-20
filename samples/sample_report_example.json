@@ -1,0 +1,53 @@
+{
+  "status": "ok",
+  "report": {
+    "startup_name": "Example",
+    "generated_on": "2026-02-20",
+    "market": {
+      "summary": "Example shows market activity signals from public sources.",
+      "score": 5.74,
+      "evidence": []
+    },
+    "competition": {
+      "summary": "Example has identifiable competitive pressure in adjacent AI categories.",
+      "score": 5.43,
+      "evidence": []
+    },
+    "traction": {
+      "summary": "Example has early traction indicators from public mentions.",
+      "score": 5.68,
+      "evidence": []
+    },
+    "business_model": {
+      "summary": "Revenue model appears plausible but requires pricing and retention validation.",
+      "score": 5.65,
+      "evidence": []
+    },
+    "risk_assessment": {
+      "summary": "Example requires diligence on compliance, model reliability, and dependency risk.",
+      "score": 6.02,
+      "evidence": []
+    },
+    "key_risks": [
+      "Limited verified financial disclosure from public sources.",
+      "Execution risk against fast-moving AI competitors.",
+      "Potential compliance and model reliability risk in regulated contexts."
+    ],
+    "recommendation": "Watchlist pending stronger proof points"
+  },
+  "evaluation": {
+    "retrieval_relevance": 5.7,
+    "citation_coverage": 0.0,
+    "consistency_score": 9.49,
+    "hallucination_risk": 1.0,
+    "judge_verdict": "needs_review"
+  },
+  "metrics": {
+    "latency_ms": 1890,
+    "input_characters": 3120,
+    "estimated_input_tokens": 780,
+    "estimated_cost_usd": 0.000117
+  },
+  "sources_indexed": 6,
+  "notes": "Phase 3 pipeline executed: evaluation + metrics logging enabled."
+}
