@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: venturelens-ai
+    env: docker
+    dockerfilePath: ./docker/Dockerfile
+    autoDeploy: true
+    healthCheckPath: /status
+    envVars:
+      - key: APP_ENV
+        value: prod
+      - key: REQUEST_VERIFY_SSL
+        value: true
+      - key: REQUEST_TIMEOUT_SECONDS
+        value: 25
+      - key: QDRANT_URL
+        sync: false
+      - key: QDRANT_API_KEY
+        sync: false
+      - key: QDRANT_COLLECTION
+        value: venturelens_docs
